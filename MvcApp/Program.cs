@@ -1,9 +1,12 @@
+using BulkyBook.DataAccess.Repository;
+using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MvcApp.Bulky.Models.Data;
 
 
-namespace MvcApp
+
+namespace BulkyBookWeb
 {
 	public class Program
 	{
@@ -20,6 +23,7 @@ namespace MvcApp
 					builder.Configuration
 					.GetConnectionString("DefaultConnection"))
 				);
+			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 			var app = builder.Build();
 
@@ -40,7 +44,7 @@ namespace MvcApp
 
 			app.MapControllerRoute(
 				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+				pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 			app.Run();
 		}
