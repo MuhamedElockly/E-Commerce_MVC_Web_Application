@@ -14,7 +14,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 		{
 			_unitOfWork = unitOfWork;
 		}
-		public IActionResult Add()
+		public IActionResult Upsert(int? id)
 		{
 			IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll()
 				.Select(u => new SelectListItem
@@ -30,7 +30,17 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 				CategoryList = CategoryList,
 				Product = new Product()
 			};
-			return View(productVM);
+
+			if (id == null || id == 0)
+			{
+				return View(productVM);
+			}
+			else
+			{
+				productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+				return View(productVM);
+			}
+
 		}
 		public IActionResult Index()
 		{
@@ -41,7 +51,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 			return View(products);
 		}
 		[HttpPost]
-		public IActionResult Add(ProductVM productVM)
+		public IActionResult Upsert(ProductVM productVM, IFormFile? formFile)
 		{
 			if (ModelState.IsValid)
 			{
@@ -65,36 +75,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 			}
 
 		}
-		public IActionResult Edit(int? id)
-		{
 
-			if (id == null || id == 0)
-			{
-				return NotFound();
-			}
-			Product product = _unitOfWork.Product.Get(u => u.Id == id);
-			if (product == null)
-			{
-				return NotFound();
-			}
-			else
-			{
-				return View(product);
-			}
-		}
-		[HttpPost]
-		public IActionResult Edit(Product product)
-		{
-
-			if (ModelState.IsValid)
-			{
-				_unitOfWork.Product.Update(product);
-				_unitOfWork.Save();
-				TempData["Success"] = "Edit is successful";
-				return RedirectToAction("Index");
-			}
-			return View(product);
-		}
 		public IActionResult Delete(int? id)
 		{
 			if (id == null || id == 0)

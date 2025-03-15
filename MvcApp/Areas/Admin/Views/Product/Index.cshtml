@@ -9,7 +9,7 @@
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2"> Create new prodegory</h2>
+				<h2 class="text-white py-2"> Create new Product</h2>
 			</div>
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 				<h1>Product View</h1>
 			</div>
 			<div class="col-6 text-end">
-				<a asp-action="Add" asp-controller="Product" class="btn btn-primary">
+				<a asp-action="Upsert" asp-controller="Product" class="btn btn-primary">
 					<i class="bi bi-plus-circle"></i>
 					Add new product
 				</a>
@@ -64,7 +64,7 @@
 						
 						<td>
 							<div class="w-75 btn-group text-end" role="group">
-								<a asp-controller="Product" asp-action="Edit" asp-route-id="@prod.Id" class="btn-primary btn mx-2">
+								<a asp-controller="Product" asp-action="Upsert" asp-route-id="@prod.Id" class="btn-primary btn mx-2">
 
 									<i class="bi bi-pencil-square "></i> Edit
 								</a>
