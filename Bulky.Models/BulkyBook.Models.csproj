@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  
+
+  <ItemGroup>
+	  <PackageRefrence Include="Microsoft.AspNet.Mvc.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.3.0" />
+  </ItemGroup>
+
 </Project>

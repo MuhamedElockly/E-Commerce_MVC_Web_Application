@@ -41,18 +41,11 @@
 					<th>
 						Product Author
 					</th>
-					<th>
-						Product List Price
-					</th>
+					
 					<th>
 						Product Price
 					</th>
-					<th>
-						Product Price50
-					</th>
-					<th>
-						Product Price100
-					</th>
+					
 
 				</tr>
 			</thead>
@@ -66,10 +59,9 @@
 					
 						<td> @prod.ISBN</td>
 						<td> @prod.Author</td>
-						<td> @prod.ListPrice</td>
+						
 						<td> @prod.Price</td>
-						<td> @prod.Price50</td>
-						<td> @prod.Price100</td>
+						
 						<td>
 							<div class="w-75 btn-group text-end" role="group">
 								<a asp-controller="Product" asp-action="Edit" asp-route-id="@prod.Id" class="btn-primary btn mx-2">
