@@ -3,6 +3,7 @@ using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 
 
@@ -13,6 +14,7 @@ namespace BulkyBookWeb
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+   var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
@@ -23,6 +25,8 @@ namespace BulkyBookWeb
 					builder.Configuration
 					.GetConnectionString("DefaultConnection"))
 				);
+
+   builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 			var app = builder.Build();

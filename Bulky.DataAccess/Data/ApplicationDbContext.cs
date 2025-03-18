@@ -1,9 +1,11 @@
 ﻿using BulkyBook.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulkyBook.Models.Data
 {
-	public class ApplicationDbContext : DbContext
+	public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
@@ -13,6 +15,7 @@ namespace BulkyBook.Models.Data
 		public DbSet<Product> Products { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<Category>().HasData(
 				new Category { Id = 1, Name = "Mobil", DisplayOrder = 1 },
 				new Category { Id = 2, Name = "Car", DisplayOrder = 2 },
@@ -33,7 +36,8 @@ namespace BulkyBook.Models.Data
 					Price100 = 80
 					,
 					CategoryId = 1
-					,ImageUrl=""
+					,
+					ImageUrl = ""
 				},
 				new Product
 				{
