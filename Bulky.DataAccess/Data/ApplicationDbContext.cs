@@ -15,6 +15,7 @@ namespace BulkyBook.Models.Data
 		public DbSet<Product> Products { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<Category>().HasData(
 				new Category { Id = 1, Name = "Mobil", DisplayOrder = 1 },
