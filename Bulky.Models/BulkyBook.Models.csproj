@@ -11,6 +11,7 @@
   <ItemGroup>
 	  <PackageRefrence Include="Microsoft.AspNet.Mvc.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.14" />
   </ItemGroup>
 
 </Project>
