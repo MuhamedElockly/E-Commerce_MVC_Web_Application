@@ -36,7 +36,7 @@ namespace BulkyBookWeb
 				options.LoginPath = $"/Identity/Account/Login";
 				options.LogoutPath = $"/Identity/Account/Logout";
 				options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-
+ 
 			});
 			builder.Services.AddRazorPages();
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
