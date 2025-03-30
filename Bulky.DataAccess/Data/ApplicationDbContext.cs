@@ -13,10 +13,20 @@ namespace BulkyBook.Models.Data
 		}
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Product> Products { get; set; }
+		public DbSet<Company> Companies { get; set; }
 		public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<Company>().HasData(
+				new Company { Id = 1, Name = "Tech Company", StreetAddress = "344", PhoneNumber = "443508", City = "Cairo", State = "Cairo", PostalCode = "4546" },
+								new Company { Id = 2, Name = "Tech Company", StreetAddress = "986", PhoneNumber = "443508", City = "Alex", State = "Alex", PostalCode = "4546" },
+								new Company { Id = 3, Name = "Sport Company", StreetAddress = "678", PhoneNumber = "443508", City = "Ismailia", State = "Ismailia", PostalCode = "4546" },
+								new Company { Id = 4, Name = "Agriculture Company", StreetAddress = "2345", PhoneNumber = "785", City = "Suiz", State = "Suiz", PostalCode = "576" }
+
+				);
+
 			modelBuilder.Entity<Category>().HasData(
 				new Category { Id = 1, Name = "Mobil", DisplayOrder = 1 },
 				new Category { Id = 2, Name = "Car", DisplayOrder = 2 },

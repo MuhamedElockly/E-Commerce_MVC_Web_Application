@@ -4,6 +4,7 @@ using BulkyBook.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBook.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250330021535_AddCompanyTable")]
+    partial class AddCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,48 +107,6 @@ namespace BulkyBook.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Cairo",
-                            Name = "Tech Company",
-                            PhoneNumber = "443508",
-                            PostalCode = "4546",
-                            State = "Cairo",
-                            StreetAddress = "344"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Alex",
-                            Name = "Tech Company",
-                            PhoneNumber = "443508",
-                            PostalCode = "4546",
-                            State = "Alex",
-                            StreetAddress = "986"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Ismailia",
-                            Name = "Sport Company",
-                            PhoneNumber = "443508",
-                            PostalCode = "4546",
-                            State = "Ismailia",
-                            StreetAddress = "678"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            City = "Suiz",
-                            Name = "Agriculture Company",
-                            PhoneNumber = "785",
-                            PostalCode = "576",
-                            State = "Suiz",
-                            StreetAddress = "2345"
-                        });
                 });
 
             modelBuilder.Entity("BulkyBook.Models.Product", b =>
