@@ -10,6 +10,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BulkyBook.DataAccess.Repository;
+using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authentication;
@@ -17,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
@@ -33,14 +36,16 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
 		private readonly IUserEmailStore<IdentityUser> _emailStore;
 		private readonly ILogger<RegisterModel> _logger;
 		private readonly IEmailSender _emailSender;
-
+		private readonly IUnitOfWork _unitOfWork;
 		public RegisterModel(
 			UserManager<IdentityUser> userManager,
 			IUserStore<IdentityUser> userStore,
 			SignInManager<IdentityUser> signInManager,
 			ILogger<RegisterModel> logger,
 			RoleManager<IdentityRole> roleManager,
-			IEmailSender emailSender)
+			IEmailSender emailSender,
+			IUnitOfWork unitOfWork
+			)
 		{
 			_userManager = userManager;
 			_userStore = userStore;
@@ -49,6 +54,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
 			_logger = logger;
 			_emailSender = emailSender;
 			_roleManager = roleManager;
+			_unitOfWork = unitOfWork;
 		}
 
 		/// <summary>
@@ -104,14 +110,18 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
 			[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 			public string ConfirmPassword { get; set; }
 			public string? Role { get; set; }
+			[ValidateNever]
 			public IEnumerable<SelectListItem> RolesList { get; set; }
 			[Required]
-			public string Name { get; set; }	
+			public string Name { get; set; }
 			public string? StreetAddress { get; set; }
 			public string? State { get; set; }
 			public string? City { get; set; }
 			public string? PostalCode { get; set; }
 			public string? PhoneNumber { get; set; }
+			public int? CompanyId { get; set; }
+			[ValidateNever]
+			public IEnumerable<SelectListItem> CompaniesList { get; set; }
 		}
 
 
@@ -131,6 +141,9 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
 			{
 				RolesList = _roleManager.Roles.Select(x => x.Name).Select(
 				i => new SelectListItem { Value = i, Text = i }
+				),
+				CompaniesList = _unitOfWork.Company.GetAll().Select(
+				i => new SelectListItem { Value = i.Id.ToString(), Text = i.Name }
 				)
 			};
 		}
@@ -147,7 +160,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
 				await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 				user.PhoneNumber = Input.PhoneNumber;
 				user.City = Input.City;
-				user.Name=Input.Name;
+				user.Name = Input.Name;
 				user.State = Input.State;
 				user.PostalCode = Input.PostalCode;
 				user.StreetAddress = Input.StreetAddress;

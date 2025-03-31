@@ -77,6 +77,13 @@
 						</select>
 
 					</div>
+					<div class="form-floating mb-3 col-md-6">
+
+						<select asp-for="Input.CompanyId" asp-items="@Model.Input.CompaniesList" class="form-select">
+							<option disapled selected>--Select Company--</option>
+						</select>
+
+					</div>
 					<div>
 						<button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
 					</div>
