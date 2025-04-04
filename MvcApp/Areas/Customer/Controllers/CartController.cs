@@ -31,12 +31,51 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 			foreach (ShoppingCard shoppingCard in ShoppingCardVM.ShoppingCardList)
 			{
 				shoppingCard.Price = GetPriceBasedOnCount(shoppingCard);
-				ShoppingCardVM.Total += shoppingCard.Price*shoppingCard.Count;
+				ShoppingCardVM.Total += shoppingCard.Price * shoppingCard.Count;
 			}
 
 
 			return View(ShoppingCardVM);
 		}
+		public IActionResult Summary()
+		{
+			return View();
+		}
+		public IActionResult Plus(int cardId)
+		{
+			ShoppingCard card = _unitOfWork.ShoppingCard.Get(u => u.Id == cardId);
+			card.Count++;
+			_unitOfWork.ShoppingCard.Update(card);
+			_unitOfWork.Save();
+			return RedirectToAction(nameof(Index));
+
+		}
+		public IActionResult Minus(int cardId)
+		{
+			ShoppingCard card = _unitOfWork.ShoppingCard.Get(u => u.Id == cardId);
+			if (card.Count <= 1)
+			{
+				_unitOfWork.ShoppingCard.Remove(card);
+			}
+			else
+			{
+				card.Count--;
+				_unitOfWork.ShoppingCard.Update(card);
+			}
+
+			_unitOfWork.Save();
+			return RedirectToAction(nameof(Index));
+
+		}
+		public IActionResult Remove(int cardId)
+		{
+			ShoppingCard card = _unitOfWork.ShoppingCard.Get(u => u.Id == cardId);
+			_unitOfWork.ShoppingCard.Remove(card);
+			_unitOfWork.Save();
+			return RedirectToAction(nameof(Index));
+
+		}
+		
 		private double GetPriceBasedOnCount(ShoppingCard shoppingCard)
 		{
 			if (shoppingCard.Count <= 50)
