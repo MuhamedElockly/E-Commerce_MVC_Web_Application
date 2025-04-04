@@ -18,7 +18,7 @@ namespace BulkyBook.DataAccess.Repository
 		{
 			_context = dbContext;
 			_dbSet = _context.Set<T>();
-		//	_context.Products.Include(u => u.Category).Include(u => u.Category.Id);
+			//	_context.Products.Include(u => u.Category).Include(u => u.Category.Id);
 
 		}
 		public void Add(T entity)
@@ -27,15 +27,22 @@ namespace BulkyBook.DataAccess.Repository
 
 		}
 
-		public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+		public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
 		{
-			IQueryable<T> query = _dbSet;
+			IQueryable<T> query;
+			if (tracked)
+			{
+				query = _dbSet;
+			}
+			else
+			{
+				query = _dbSet.AsNoTracking();
+			}
 			if (!string.IsNullOrEmpty(includeProperties))
 			{
 				foreach (var property in includeProperties
 					.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
 				{
-
 					query = query.Include(property);
 				}
 			}
